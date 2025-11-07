@@ -2,6 +2,6 @@ from fastapi import APIRouter
 from controllers.app_controller import translate_asl
 
 
-app = APIRouter()
+router = APIRouter()
 
-app.post("/translate_asl") (translate_asl)
+router.post("/translate_asl") (translate_asl)
