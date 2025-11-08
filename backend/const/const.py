@@ -1,1 +1,0 @@
-MAX_FRAMES = 8

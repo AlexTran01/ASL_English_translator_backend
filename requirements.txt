@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+aiofiles
+python-multipart
+torch
+torchvision
+numpy<2
+opencv-python
+ffmpeg-python
+albumentations
+imgaug
+requests
+pandas
+scikit-learn

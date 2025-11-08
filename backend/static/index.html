@@ -1,8 +1,11 @@
 <!-- Simple HTML + JS to record 3 seconds and POST -->
-<button id="start">Record 3s & Send</button>
+<div style="display:flex;gap:12px;align-items:center">
+  <button id="start_translate">Record 3s & Send to /translate_asl</button>
+  <button id="start_gemini">Record 3s & Send to /label_with_gemini</button>
+  <div id="result" style="margin-left:8px"></div>
+</div>
 <script>
-const startBtn = document.getElementById('start');
-startBtn.onclick = async () => {
+async function recordAndSend(url) {
   const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
   const recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
   const chunks = [];
@@ -19,9 +22,18 @@ startBtn.onclick = async () => {
   const form = new FormData();
   form.append('video', blob, 'capture.webm');
 
-  const resp = await fetch('http://127.0.0.1:8000/translate_asl', { method: 'POST', body: form });
-  const text = await resp.text();
-  alert('Prediction: ' + text);
+  const resp = await fetch(url, { method: 'POST', body: form });
+  let text;
+  try {
+    const json = await resp.json();
+    text = JSON.stringify(json);
+  } catch (e) {
+    text = await resp.text();
+  }
+  document.getElementById('result').innerText = text;
   stream.getTracks().forEach(t => t.stop());
-};
+}
+
+document.getElementById('start_translate').onclick = () => recordAndSend('/translate_asl');
+document.getElementById('start_gemini').onclick = () => recordAndSend('/label_with_gemini');
 </script>
