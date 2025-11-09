@@ -8,4 +8,3 @@ router = APIRouter()
 router.include_router(translate_router)
 router.include_router(ui_router)
 router.include_router(gemini_asl_router)
-

@@ -4,7 +4,7 @@ from typing import Optional, Any
 from backend.const.constant import CHECKPOINT_PATH
 from backend.utils.video_converter import video_to_tensor
 from backend.utils.model_utils import get_model_checkpoint, load_model_state_dict, class_mapping
-
+from backend.const.constant import MAX_FRAMES
 
 class TranslationService:
     """
@@ -51,8 +51,26 @@ class TranslationService:
         with torch.no_grad():
             logits = self.model(clips)
             pred_idx = int(logits.argmax(1).item())
-            # print("Inference logits:", logits)
             print("Predicted index:", pred_idx)
+        pred_idx = class_mapping(self.class_mapping, pred_idx)
+        return pred_idx
+
+    def predict_from_bytes(self, video_bytes: bytes) -> str:
+        if self.model is None:
+            raise RuntimeError('Model is not loaded')
+
+        # video_to_tensor accepts raw bytes as the first argument (video_bytes).
+        clips = video_to_tensor(video_bytes, num_frames=MAX_FRAMES, to_rgb=True, tmp_suffix=".webm")  # (1, C, T, H, W)
+        if clips.dim() == 4:
+            clips = clips.unsqueeze(0)
+
+        clips = clips.to(self.device)
+
+        with torch.no_grad():
+            logits = self.model(clips)
+            pred_idx = int(logits.argmax(1).item())
+            print("Predicted index:", pred_idx)
+
         pred_idx = class_mapping(self.class_mapping, pred_idx)
         return pred_idx
 

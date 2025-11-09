@@ -2,7 +2,7 @@
 """
 Usage:
   python record_and_send_chunks.py --duration 2 --url http://127.0.0.1:8000/gemini_asl/chunk --token "$GEMINI_API_KEY"
-
+  python record_and_send_chunks.py --duration 2 --url http://127.0.0.1:8000/gemini_asl/chunk --token $env:GEMINI_API_KEY
 Options:
   --duration    Chunk length in seconds (default: 2)
   --camera      Camera index (default: 0)

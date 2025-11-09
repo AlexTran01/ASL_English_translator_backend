@@ -12,3 +12,8 @@ def translate_asl(video_path: str) -> str:
     scripts remain unchanged.
     """
     return default_service.predict(video_path)
+
+
+def translate_asl_bytes(video_bytes: bytes) -> str:
+    """Translate a video provided as raw bytes (webm/mp4) without saving to permanent storage."""
+    return default_service.predict_from_bytes(video_bytes)

@@ -3,7 +3,7 @@ import json
 from google import genai
 from google.genai import types
 from backend.const.constant import SYSTEM_PROMPT
-from backend.models.schemas import ChunkResponse, ChunkPrediction
+from backend.models.schemas import ChunkResponse, ChunkPrediction, PredictionResponse as PredictResponse
 
 def process_gemini_asl_chunk(client: genai.Client, video_bytes: bytes, session_id: str = None, chunk_index: int = None) -> ChunkResponse:
     response = client.models.generate_content(
@@ -32,7 +32,7 @@ def process_response(response: ChunkResponse, session_id: str | None = None, chu
         confidence = parsed.get("confidence")
         alts = parsed.get("alternatives") or []
         alternatives = [
-            AlternativePrediction(
+            PredictResponse(
                 label=alt.get("label", "UNKNOWN"),
                 confidence=alt.get("confidence"),
             )
