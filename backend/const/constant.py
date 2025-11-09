@@ -22,6 +22,12 @@ MAX_UPLOAD_BYTES = 100 * 1024 * 1024  # 100 MB default
 DEFAULT_HOST = '0.0.0.0'
 DEFAULT_PORT = 8000
 
+# Character-level model assets (used by demo / hand-landmarker)
+CHARACTER_MODEL_DIR = ROOT / 'ai_modules' / 'Model_character_level'
+HAND_LANDMARKER_ASSET = CHARACTER_MODEL_DIR / 'hand_landmarker.task'
+CHARACTER_PREDICTOR_PKL = CHARACTER_MODEL_DIR / 'predictor.pkl'
+CHARACTER_SCALER_PKL = CHARACTER_MODEL_DIR / 'scaler.pkl'
+
 # Prompt
 SYSTEM_PROMPT = """You are an expert ASL interpreter.
         Analyze the uploaded video and identify the **word-level ASL gesture** being performed **BY HAND**.

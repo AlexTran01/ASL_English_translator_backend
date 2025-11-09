@@ -29,7 +29,7 @@ def _process_chunk_sync(api_key: str | None, video_bytes: bytes, session_id: str
             logger.debug("genai client close failed", exc_info=True)
 
 
-@router.post("/v1/gemini_asl/chunk", response_model=ChunkResponse)
+@router.post("/v1/word_gemini_asl/chunk", response_model=ChunkResponse)
 async def gemini_asl(request: Request, video: UploadFile = File(...), session_id: str | None = Form(default=None), chunk_index: int | None = Form(default=None)):
     start_time = time.time()
     if not (video.content_type and video.content_type.startswith("video/")):

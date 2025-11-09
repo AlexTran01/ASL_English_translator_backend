@@ -59,7 +59,7 @@ async def translate_asl(video: UploadFile = File(...)):
 			except Exception:
 				pass
 
-@router.post("/v1/translate_asl/chunk", response_model=PredictionResponse)
+@router.post("/v1/word_internal_model_asl/chunk", response_model=PredictionResponse)
 async def translate_asl_v1(request: Request, video: UploadFile = File(...), session_id: str | None = Form(default=None), chunk_index: int | None = Form(default=None)):
 	start_time = time.time()
 	

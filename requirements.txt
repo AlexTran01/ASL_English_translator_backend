@@ -11,4 +11,8 @@ albumentations
 imgaug
 requests
 pandas
-scikit-learn
+scikit-learn==1.6.0  # pinned to match pickles created with sklearn 1.6.0 (avoids InconsistentVersionWarning)
+
+# Notes:
+# - If you prefer to use a newer scikit-learn, re-create the predictor/scaler pickles
+#   with that version and place them under backend/ai_modules/Model_character_level/.
