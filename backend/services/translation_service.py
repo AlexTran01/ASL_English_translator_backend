@@ -51,7 +51,8 @@ class TranslationService:
         with torch.no_grad():
             logits = self.model(clips)
             pred_idx = int(logits.argmax(1).item())
-
+            # print("Inference logits:", logits)
+            print("Predicted index:", pred_idx)
         pred_idx = class_mapping(self.class_mapping, pred_idx)
         return pred_idx
 

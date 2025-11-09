@@ -2,14 +2,14 @@ import os
 from backend.const.constant import UPLOAD_DIR, KEEP_UPLOADS
 from backend.utils.file_io import save_upload_file, rename_to_label, remove_file
 from backend.models.schemas import PredictionResponse, StatusResponse
-from backend.controllers.app_controller import translate_asl
+from backend.controllers.app_controller import translate_asl as translate_asl_controller
 from fastapi import APIRouter, UploadFile, File, HTTPException, status
 
 
 router = APIRouter()
 
-@router.post("/translate_asl", response_model=PredictionResponse)
-async def translate_route(video: UploadFile = File(...)):
+@router.post("/translate_asl/chunk", response_model=PredictionResponse)
+async def translate_asl(video: UploadFile = File(...)):
 	"""Accept an uploaded video file,
 	  save it temporarily, 
 	  call the controller, 
@@ -23,7 +23,8 @@ async def translate_route(video: UploadFile = File(...)):
 		tmp_path = await save_upload_file(video, UPLOAD_DIR)
 		print(f"Saved uploaded video to: {tmp_path}")
 
-		result = translate_asl(tmp_path)
+		# call the controller function (aliased to avoid name shadowing with this route)
+		result = translate_asl_controller(tmp_path)
 
 		if KEEP_UPLOADS:
 			try:

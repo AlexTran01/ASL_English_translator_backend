@@ -21,8 +21,8 @@ class VideoTransform:
         else:
             # deterministic eval transform
             self.aug = A.Compose([
-                A.Resize(112,112),
-                A.CenterCrop(112,112),
+                A.Resize(160,160),
+                A.CenterCrop(160,160),
                 A.Normalize(mean=(0.45,0.45,0.45), std=(0.225,0.225,0.225)),
                 ToTensorV2()
             ])
@@ -38,7 +38,7 @@ class VideoTransform:
                 except Exception as _e:
                     # fallback manual processing for inference
                     try:
-                        resized = cv2.resize(rgb, (112, 112))
+                        resized = cv2.resize(rgb, (160, 160))
                         arr = resized.astype(np.float32) / 255.0
                         mean = np.array((0.45, 0.45, 0.45), dtype=np.float32)
                         std = np.array((0.225, 0.225, 0.225), dtype=np.float32)
@@ -57,7 +57,7 @@ class VideoTransform:
                     print(f"VideoTransform: failed processing frame {i}, skipping (no traceback available)")
                 continue
         if not frames:
-            return torch.zeros((3, self.max_frames, 112, 112), dtype=torch.float32)
+            return torch.zeros((3, self.max_frames, 160, 160), dtype=torch.float32)
         if len(frames) < self.max_frames:
             frames = (frames * ((self.max_frames // len(frames)) + 1))[:self.max_frames]
         else:

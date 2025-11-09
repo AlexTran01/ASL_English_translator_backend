@@ -96,7 +96,6 @@ def video_to_tensor(video_path: str, num_frames: int = MAX_FRAMES, to_rgb: bool 
                 os.remove(cleanup_converted)
             except Exception:
                 pass
-
     print(f"video_to_tensor: collected {len(frames)} frames from {video_path}")
     if frames:
         try:
